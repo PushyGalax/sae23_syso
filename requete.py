@@ -73,7 +73,10 @@ deletedata="DELETE FROM {} WHERE {} = {}"
 #année mois jour
 list_all_table="SELECT * FROM {}"
 list_all_id="SELECT id_{} FROM {}"
-select_with_where="SELECT id_{} FROM {} WHERE id_{} = {}"
+select_id_with_where="SELECT id_{} FROM {} WHERE id_{} = {}"
+select_with_where="SELECT {} FROM {} WHERE {} = {}"
+select_key="SELECT {} FROM {}"
+order="ORDER BY {}"
 
 valeur={
 "salle":"id_salle, id_batiment, nom_salle",

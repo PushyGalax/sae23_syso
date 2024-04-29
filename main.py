@@ -1,4 +1,4 @@
-import bdd_create_and_insert as bdd
+import bdd as bdd
 
 title = """|                                            /                       .-.                                                   /           |
 |    .     .    .-. .  .-. .-.     .-.      /-.   .-._. .  .-.       `-'  .-.    .-.        .    .-._. .  .-.    .-.   ---/---  .-.    |

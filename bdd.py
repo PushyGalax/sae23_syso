@@ -32,7 +32,7 @@ class bdd:
         print(ph)
     
     def prin_all_data_with_where(self, sel,table, comp, test):
-        self.curs.execute(requete.select_with_where.format(sel,table,comp,test))
+        self.curs.execute(requete.select_id_with_where.format(sel,table,comp,test))
         phrase=self.curs.fetchall()
         ph=""
         for elem in phrase:
@@ -52,7 +52,7 @@ class bdd:
         return listeid
     
     def list_id_where(self, sel, table, comp, test):
-        self.curs.execute(requete.select_with_where.format(sel,table,comp,test))
+        self.curs.execute(requete.select_id_with_where.format(sel,table,comp,test))
         
         idd=self.curs.fetchall()
         listeid=[]
