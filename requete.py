@@ -69,6 +69,7 @@ creation = ["CREATE DATABASE IF NOT EXISTS sae_23",
 drop="DROP DATABASE sae_23"
 request_ajout="INSERT INTO {}({}) VALUES({})"
 deletedata="DELETE FROM {} WHERE {} = {}"
+deletedoubleid="DELETE FROM {} WHERE id_{} = {} AND id_{} = {}"
 #INSERT INTO salle(id_salle, id_batiment, nom_salle) VALUES ('[value-1]','[value-2]','[value-3]')
 #année mois jour
 list_all_table="SELECT * FROM {}"

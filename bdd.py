@@ -19,6 +19,22 @@ class bdd:
     def drop(self):
         self.curs.execute(requete.drop)
         self.bd.commit()
+        print("La base de données à était supprimer.")
+    
+    def delete_data(self, table, iden):
+        try:
+            self.curs.execute(requete.deletedata.format(table,f"id_{table}",iden))
+            print("Donnée supprimée")
+        except:
+            print("La données n'a pas pu être supprimer.\nIl est possible que l'identificateur donné soit erroné.")
+    
+    def delete_double_id(self, table, table1, table2,id1, id2):
+        try:
+            self.curs.execute(requete.deletedoubleid.format(table,table1,id1,table2,id2))
+            print("Donnée supprimée")
+        except:
+            print("La données n'a pas pu être supprimer.\nIl est possible que l'identificateur donné soit erroné.")
+
     
     def showall(self, table):
         self.curs.execute(requete.list_all_table.format(table))

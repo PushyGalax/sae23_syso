@@ -30,7 +30,9 @@ consigne = """  Voici les instructions de fonctionnement de l'application.
         >>> s   :-> permet de créer la base de données, les tables et de mettre les valeurs d'initiation
         >>> t   :-> permet de liste le contenue d'une table
         >>> r   :-> recherche
-        >>> a   :-> ajout de données"""
+        >>> a   :-> ajout de données
+        >>> x   :-> supprimer des données
+        >>> u   :-> mettre à jours des données"""
 
 
 def ajout_batiment():
@@ -221,6 +223,64 @@ def ajout():
             ajout_morceau()
     
 
+def delete():
+    table=input(f"{liste_table}\nVeuillez choisir une table >>> ")
+    sql.showall(table)
+    iden=input("Veuillez choisir l'identificateur de la donnée à supprimer, si c'est pour la table jouer, veuiller choisir les deux identifiants séparé pas une virgule comme suit: id_concert,id_morceau.\n >>> ")
+    match table:
+        case "batiment":
+            id_salle=sql.list_id_where("salle","salle",table,iden)
+            if len(id_salle)==0:
+                sql.delete_data(table=table,iden=iden)
+            else:
+                peut_del=True
+                print("Il y a encore des salles existantes pour le batiment, souhaitez vous les supprimer? (Y | N)")
+                choice=input(" >>> ")
+                if choice in ["Y","y"]:
+                    for i in id_salle:
+                        id_concert=sql.list_id_where("concert","concert","salle",i)
+                        if len(id_concert)==0:
+                            sql.delete_data("salle",i)
+                        else:
+                            print("La salle ne peut pas être supprimer car il y a un concert existant.\nVeuillez commencer pas supprimer d'abord les salles possédants des concerts.")
+                            peut_del=False
+                    if peut_del:
+                        sql.delete_data(table=table,iden=iden)
+                    else:
+                        print("Le batiment n'est pas supprimer car il y a encore un concert attaché à une salle.")
+        case "salle":
+            id_concert=sql.list_id_where("concert","concert",table,iden)
+            if len(id_concert)==0:
+                sql.delete_data(table=table,iden=iden)
+            else:
+                peut_del=True
+                print(f"Il y a encore des concerts existants pour la salle.\n{[sql.prin_all_data_with_where("*","concert","id_concert",i) for i in id_concert]}\nSouaitez vous les supprmier? (Y | N)")
+                choice=input(" >>> ")
+                if choice in ["Y","y"]:
+                    for i in id_concert:
+                        sql.delete_data("concert",i)
+                    sql.delete_data(table=table,iden=iden)
+                else:
+                    print("La salle n'a pas était supprimer.")
+
+        case "morceau":
+            sql.delete_data(table=table,iden=iden)
+
+        case "compositeur":
+            pass
+
+        case "jouer":
+            cle=iden.split(",")
+            sql.delete_double_id("jouer","concert",cle[0],"morceau",cle[1])
+        
+        case "concert":
+            sql.delete_data(table,iden)
+
+        case _:
+            print("La table n'existe pas.")
+
+                            
+
 if __name__ == "__main__":
     address, port, user, mdp, database = lireconf()
     port = int(port)
@@ -229,9 +289,9 @@ if __name__ == "__main__":
     sql = bdd.bdd(address, user, mdp, port,"./csv")
     print("connexion etablit\n")
     
-    print("|-"+"-"*132+"-|")
+    print("--"+"-"*132+"--")
     print(title)
-    print("|-"+"-"*132+"-|\n")
+    print("--"+"-"*132+"--\n")
     print("                 Bienvenue dans le CLI de Symphonica Sonata\n\n")
     running=True
     print(consigne)
@@ -272,6 +332,9 @@ if __name__ == "__main__":
             
             case "r":
                 print("Work In Progress")
+            
+            case "x":
+                delete()
             
             case _:
                 print("La commande n'existe pas")
