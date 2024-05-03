@@ -7,6 +7,18 @@ title = """|                                            /                       
 | /      ..-._)               `-'/                            `-                         /                   `-                        |"""
 
 def lireconf():
+    """
+    Lit les informations de configuration à partir d'un fichier 'config.conf'.
+
+    Fonctionnement :
+    - Ouvre le fichier 'config.conf' en mode lecture.
+    - Parcourt chaque ligne du fichier.
+      - Ignore les lignes commençant par '###'.
+      - Détecte le début de la section '[bdd conf]' pour commencer à récupérer les données.
+      - Ajoute les informations de configuration à une liste `listeinfo` après le début de la section '[bdd conf]'.
+    - Retourne les informations de configuration sous forme de tuple.
+    """
+    
     with open("config.conf", 'r') as conf:
         file = conf.readlines()
         data=False
@@ -19,7 +31,7 @@ def lireconf():
             elif data == True:
                 listeinfo.append(line.strip().split(':')[1].strip())
         
-    return listeinfo[0], listeinfo[1], listeinfo[2], listeinfo[3], listeinfo[4]
+    return listeinfo[0], listeinfo[1], listeinfo[2], listeinfo[3], listeinfo[4], listeinfo[5]
 
 liste_table = ["batiment","salle","compositeur","concert","morceau","jouer"]
 
@@ -36,6 +48,18 @@ consigne = """  Voici les instructions de fonctionnement de l'application.
 
 
 def ajout_batiment():
+    """
+    Permet à l'utilisateur d'ajouter un nouveau bâtiment dans la table 'batiment' de la base de données.
+
+    Fonctionnement :
+    - Affiche un message indiquant qu'il s'agit de l'ajout d'un bâtiment.
+    - Demande à l'utilisateur de saisir les détails du nouveau bâtiment :
+      - Nom du bâtiment
+      - Adresse du bâtiment
+      - Ville du bâtiment
+      - Code postal du bâtiment
+    - Ajoute les détails du nouveau bâtiment dans la table "batiment" de la base de données en utilisant `sql.add_valeur()`.
+    """
     print("Ajout de batiment")
     nom_bat=input("Nom du batiment\n >>> ")
     addr_bat=input("Adresse du batiment\n >>> ")
@@ -45,6 +69,17 @@ def ajout_batiment():
     
 
 def ajout_salle():
+    """
+    Permet à l'utilisateur d'ajouter une nouvelle salle dans la table 'salle' de la base de données.
+
+    Fonctionnement :
+    - Affiche un message indiquant qu'il s'agit de l'ajout d'une salle.
+    - Demande à l'utilisateur de choisir l'ID d'un bâtiment parmi ceux disponibles.
+    - Affiche tous les bâtiments existants en utilisant `sql.showall("batiment")`.
+    - Valide l'ID saisi en vérifiant s'il est présent dans la table des bâtiments.
+    - Demande à l'utilisateur de saisir le nom de la nouvelle salle.
+    - Ajoute les détails de la nouvelle salle dans la table "salle" de la base de données en utilisant `sql.add_valeur()`.
+    """
     print("Ajout d'une salle")
     print("Veuillez choisir l'id d'un batiment")
     sql.showall("batiment")
@@ -61,6 +96,20 @@ def ajout_salle():
 
 
 def ajout_compositeur():
+    """
+    Permet à l'utilisateur d'ajouter un nouveau compositeur ou groupe dans la table 'compositeur' de la base de données.
+
+    Fonctionnement :
+    - Affiche un message indiquant qu'il s'agit de l'ajout d'un compositeur ou groupe.
+    - Demande à l'utilisateur de saisir les détails du nouveau compositeur ou groupe :
+      - Nom du compositeur ou groupe
+      - Date de naissance du compositeur au format AAAA/MM/JJ (peut être NULL)
+      - Date de décès du compositeur au format AAAA/MM/JJ (peut être NULL)
+      - Nombre de compositions du compositeur (peut être NULL)
+    - Chaque détail saisi est validé selon les critères spécifiés.
+    - Ajoute les détails du compositeur ou groupe dans la table "compositeur" de la base de données en utilisant `sql.add_valeur()`.
+    """
+
     print("Ajout de compositeur ou groupe")
     nom_comp=input("Nom du compositeur\n >>> ")
     dat_nais_comp=input("date de naissance du compositeur format AAAA/MM/JJ sinon NULL\n >>> ")
@@ -78,6 +127,24 @@ def ajout_compositeur():
     sql.add_valeur("compositeur",nom_comp,dat_nais_comp,dat_mort_comp,nb_comp)
 
 def ajout_morceau():
+    """
+    Permet à l'utilisateur d'ajouter un nouveau morceau dans la table 'morceau' de la base de données.
+
+    Fonctionnement :
+    - Affiche un message indiquant qu'il s'agit de l'ajout d'un morceau.
+    - Demande à l'utilisateur de choisir l'ID d'un compositeur parmi ceux disponibles.
+    - Affiche tous les compositeurs existants en utilisant `sql.showall("compositeur")`.
+    - Valide l'ID saisi en vérifiant s'il est présent dans la table des compositeurs.
+    - Demande à l'utilisateur de saisir les détails du nouveau morceau :
+      - Nom du morceau
+      - Année de composition du morceau (peut être NULL)
+      - Durée du morceau en minutes
+      - Genre du morceau parmi les options spécifiées
+      - Lieu de composition du morceau (ville ou pays, peut être NULL)
+    - Chaque détail saisi est validé selon les critères spécifiés.
+    - Ajoute les détails du morceau dans la table "morceau" de la base de données en utilisant `sql.add_valeur()`.
+    """
+
     print("Ajout d'un morceau")
     print("Veuillez choisir l'id d'un compositeur")
     sql.showall("compositeur")
@@ -110,6 +177,29 @@ def ajout_morceau():
     sql.add_valeur("morceau",id_com,nom_morc,annee_morc,duree_morc,genre_morc,lieu_morc)
 
 def ajout_concert():
+    """
+    Permet à l'utilisateur d'ajouter un nouveau concert dans la table 'concert' de la base de données.
+
+    Fonctionnement :
+    - Affiche un message indiquant qu'il s'agit de l'ajout d'un concert.
+    - Demande à l'utilisateur de choisir l'ID d'une salle parmi celles disponibles.
+    - Affiche tous les salles existantes en utilisant `sql.showall("salle")`.
+    - Valide l'ID saisi en vérifiant s'il est présent dans la table des salles.
+    - Demande à l'utilisateur de saisir les détails du nouveau concert :
+      - Nom du concert
+      - Date du concert au format AAAA/MM/JJ (peut être NULL)
+      - Formation instrumentale du concert parmi les options spécifiées
+      - Nombre de places disponibles pour le concert
+      - Chef d'orchestre du concert (peut être NULL)
+      - Soliste du concert (peut être NULL)
+      - Prix de la place en euro du concert (peut être NULL)
+      - Indication si le concert contient de la danse ou des projections d'images (1 pour oui, 0 pour non)
+      - Durée du concert en minutes
+      - Genre du concert parmi les options spécifiées
+    - Chaque détail saisi est validé selon les critères spécifiés.
+    - Ajoute les détails du concert dans la table "concert" de la base de données en utilisant `sql.add_valeur()`.
+    """
+
     print("Ajout d'un concert")
     print("Veuillez choisir l'id d'une salle")
     sql.showall("salle")
@@ -161,6 +251,23 @@ def ajout_concert():
     sql.add_valeur("concert",id_sal,nom_conc,date_conc,form_conc,nbpl_conc,chef_conc,soli_conc,prix_conc,visu_conc,dure_conc,genr_conc)
 
 def ajout_jouer():
+    """
+    Permet à l'utilisateur d'ajouter une association entre un morceau, un concert et un compositeur
+    dans la table 'jouer' de la base de données.
+
+    Fonctionnement :
+    - Affiche un message indiquant qu'il s'agit de l'ajout d'un morceau à un concert.
+    - Demande à l'utilisateur de choisir l'ID d'un concert parmi ceux disponibles.
+    - Affiche tous les concerts existants en utilisant `sql.showall("concert")`.
+    - Valide l'ID saisi en vérifiant s'il est présent dans la table des concerts.
+    - Demande à l'utilisateur de choisir l'ID d'un compositeur parmi ceux disponibles.
+    - Affiche tous les compositeurs existants en utilisant `sql.showall("compositeur")`.
+    - Valide l'ID saisi en vérifiant s'il est présent dans la table des compositeurs.
+    - Affiche les morceaux associés à ce compositeur en utilisant `sql.prin_data_with_where()` avec la table "morceau".
+    - Demande à l'utilisateur de choisir l'ID d'un morceau parmi ceux associés à ce compositeur.
+    - Valide l'ID saisi en vérifiant s'il est associé au compositeur choisi.
+    - Ajoute l'association (concert, morceau) dans la table "jouer" en utilisant `sql.add_valeur()`.
+    """
     print("Ajout d'un morceau à un concert")
     print("Veuillez choisir l'id d'un concert")
     sql.showall("concert")
@@ -194,6 +301,21 @@ def ajout_jouer():
 
 
 def ajout():
+    """
+    Permet à l'utilisateur d'ajouter des données dans une table spécifiée de la base de données.
+
+    Fonctionnement :
+    - Affiche à l'utilisateur la liste des tables disponibles où il peut ajouter des données.
+    - Demande à l'utilisateur de choisir une table parmi celles disponibles.
+    - Selon la table choisie, redirige l'utilisateur vers une fonction spécifique pour ajouter les données :
+      - Si la table choisie est "batiment", appelle la fonction `ajout_batiment()`.
+      - Si la table choisie est "salle", appelle la fonction `ajout_salle()`.
+      - Si la table choisie est "compositeur", appelle la fonction `ajout_compositeur()`.
+      - Si la table choisie est "concert", appelle la fonction `ajout_concert()`.
+      - Si la table choisie est "jouer", appelle la fonction `ajout_jouer()`.
+      - Si la table choisie est "morceau", appelle la fonction `ajout_morceau()`.
+    """
+
     print(f"veuiller choisir une table parmis les suivantes : {liste_table}")
     table_ajout=input(" >>> ").strip().lower()
     present=True
@@ -224,6 +346,27 @@ def ajout():
     
 
 def delete():
+    """
+    Permet à l'utilisateur de supprimer des données d'une table spécifiée de la base de données.
+
+    Fonctionnement :
+    - Demande à l'utilisateur de choisir une table parmi celles disponibles dans la liste des tables.
+    - Affiche les données de la table choisie à l'utilisateur.
+    - Demande à l'utilisateur de saisir l'identifiant de la donnée qu'il souhaite supprimer.
+    - Selon la table choisie, effectue des actions spécifiques de suppression :
+      - Si la table est "batiment" :
+        a. Vérifie s'il existe des salles associées au bâtiment à supprimer.
+        b. Si aucune salle n'est associée, supprime le bâtiment directement.
+        c. Si des salles existent, demande à l'utilisateur s'il souhaite également supprimer les salles et les concerts associés.
+      - Si la table est "salle" :
+        a. Vérifie s'il existe des concerts associés à la salle à supprimer.
+        b. Si aucune concert n'est associé, supprime la salle directement.
+        c. Si des concerts existent, demande à l'utilisateur s'il souhaite également supprimer les concerts associés.
+      - Pour d'autres tables comme "morceau", "compositeur", et "concert", supprime la donnée directement.
+      - Pour la table "compositeur", vérifie s'il existe des morceaux associés au compositeur à supprimer.
+        - Si des morceaux existent, informe l'utilisateur que le compositeur ne peut pas être supprimé.
+    """
+
     table=input(f"{liste_table}\nVeuillez choisir une table >>> ")
     testtable=True
     while testtable:
@@ -233,7 +376,7 @@ def delete():
             testtable=False
     sql.showall(table)
     
-    iden=input("Veuillez choisir l'identificateur de la donnée à supprimer, si c'est pour la table jouer, veuiller choisir les deux identifiants séparé pas une virgule comme suit: id_concert,id_morceau.\n >>> ")
+    iden=input("Veuillez choisir l'identificateur de la donnée à supprimer\n >>> ")
     match table:
         case "batiment":
             id_salle=sql.list_id_where("salle","salle",table,iden)
@@ -274,8 +417,12 @@ def delete():
             sql.delete_data(table=table,iden=iden)
 
         case "compositeur":
-            ... ##################################################################################
-
+            id_morceau=sql.list_id_where("morceau","morceau",table,iden)
+            if len(id_morceau)==0:
+                sql.delete_data(table=table,iden=iden)
+            else:
+                print("le compositeur ne peut être supprimer car il possède des musiques dans la table musique.")
+                    
         case "jouer":
             print("Le programme ne peut être modifié.")
         
@@ -286,6 +433,26 @@ def delete():
             print("La table n'existe pas.")
 
 def updateable():
+    """
+        Cette fonction permet à l'utilisateur de mettre à jour des données dans les tables 'concert' ou 'compositeur'
+        de la base de données.
+
+        Fonctionnement :
+        1. Affiche les tables modifiables disponibles : 'concert', 'compositeur'.
+        2. Demande à l'utilisateur de choisir une table à modifier.
+        3. Selon le choix de l'utilisateur :
+        - Si 'concert' est choisi :
+            a. Affiche tous les concerts existants avec leurs IDs.
+            b. Demande à l'utilisateur de saisir l'ID d'un concert existant.
+            c. Propose les clés modifiables : 'date' (nouvelle date du concert) ou 'place' (nouveau nombre de places).
+            d. Effectue la mise à jour dans la base de données en fonction de la clé choisie.
+        - Si 'compositeur' est choisi :
+            a. Affiche tous les compositeurs existants avec leurs IDs.
+            b. Demande à l'utilisateur de saisir l'ID d'un compositeur existant.
+            c. Demande à l'utilisateur de saisir la nouvelle date de décès du compositeur.
+            d. Effectue la mise à jour dans la base de données pour la date de décès du compositeur.
+    """
+
     print("Voici la liste des tables modifiables : concert, compositeur")
     choice=input("veuillez choisir une des tables modifiables.\n >>> ")
     match choice:
@@ -303,22 +470,33 @@ def updateable():
                     date=input("Veuillez choisir la nouvelles date du concert au format AAAA/MM/JJ sinon NULL\n >>> ")
                     sql.update(choice,"date_concert",date,id_)
                 case "place":
-                    ... ##################################################################################
+                    nbplace=input("Veuillez choisir le nouveau nombre de place disponible.\n >>> ")
+                    while int(nbplace)<0:
+                        nbplace=input("Le nombre doit être positif ou nul.\n >>> ")
+                    sql.update("concert","date_concert",f"'{nbplace}'",id_)
                 case _:
                     print("La clé demandée n'existe pas dans la table.")
         case "compositeur":
-            ... ##################################################################################
+            sql.showall("compositeur")
+            id_=input("Veuillez choisir un id d'un compositeur ou groupe existant.\n >>> ")
+            while id_ not in sql.return_all_id_from_table("compositeur"):
+                id_=input("Veuillez choisir un id d'un compositeur ou groupe existant sinon l pour lister les concerts\n >>> ")
+                if id_ == "l":
+                    sql.showall("compositeur")
+            date=input("Veuillez choisir la date de mort du compositeur ou du groupe.\n >>> ")
+            sql.update("compositeur","date_mort",date,id_)
         case _:
             print("Votre table n'est pas dans la liste des tables modifiables.")
 
-                            
+def recherche():
+    ...
 
 if __name__ == "__main__":
-    address, port, user, mdp, database = lireconf()
+    address, port, user, mdp, database, chem = lireconf()
     port = int(port)
 
     print("connexion")
-    sql = bdd.bdd(address, user, mdp, port,"./csv")
+    sql = bdd.bdd(address, user, mdp, port,chem)
     print("connexion etablit\n")
     
     print("--"+"-"*132+"--")
@@ -369,7 +547,7 @@ if __name__ == "__main__":
                 delete()
             
             case "u":
-                print("work in progress")
+                updateable()
             
             case _:
                 print("La commande n'existe pas")

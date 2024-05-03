@@ -17,11 +17,28 @@ class bdd:
             
     
     def drop(self):
+        """
+        Supprime la base de données en exécutant une requête DROP.
+
+        Fonctionnement :
+        - Exécute la requête de suppression (DROP) sur la base de données.
+        - Communique avec la base de données pour effectuer les modifications.
+        - Affiche un message indiquant que la base de données a été supprimée avec succès.
+        """
         self.curs.execute(requete.drop)
         self.bd.commit()
         print("La base de données à était supprimer.")
     
     def delete_data(self, table, iden):
+        """
+        Supprime une entrée spécifique d'une table dans la base de données.
+
+        Fonctionnement :
+        - Exécute une requête de suppression (DELETE) pour supprimer une entrée spécifique dans une table.
+        - Utilise les paramètres `table` et `iden` pour construire la requête de suppression.
+        - Affiche un message de confirmation si la suppression est effectuée avec succès.
+        - Gère les exceptions pour afficher un message approprié en cas d'échec de la suppression.
+        """
         try:
             self.curs.execute(requete.deletedata.format(table,f"id_{table}",iden))
             print("Donnée supprimée")
@@ -29,6 +46,14 @@ class bdd:
             print("La données n'a pas pu être supprimer.\nIl est possible que l'identificateur donné soit erroné.")
     
     def delete_double_id(self, table, table1, table2,id1, id2):
+        """
+        Supprime une entrée spécifique en utilisant deux identifiants dans deux tables liées dans la base de données.
+
+        Fonctionnement :
+        - Exécute une requête de suppression (DELETE) pour supprimer une entrée spécifique dans une table `table`
+        en utilisant deux identifiants (`id1` et `id2`) qui doivent correspondre respectivement aux tables `table1` et `table2`.
+        - Cette fonctionnalité est utile pour supprimer des données dans des tables qui ont des relations via des clés étrangères.
+        """
         try:
             self.curs.execute(requete.deletedoubleid.format(table,table1,id1,table2,id2))
             print("Donnée supprimée")
@@ -37,6 +62,13 @@ class bdd:
 
     
     def showall(self, table):
+        """
+        Affiche toutes les entrées d'une table spécifique dans la base de données.
+
+        Fonctionnement :
+        - Exécute une requête SELECT pour récupérer toutes les entrées de la table spécifiée (`table`).
+        - Affiche les résultats formatés sous forme de tableau.
+        """
         self.curs.execute(requete.list_all_table.format(table))
         phrase=self.curs.fetchall()
         print(requete.valeur[table].replace(","," |"))
@@ -48,6 +80,13 @@ class bdd:
         print(ph)
     
     def prin_data_with_where(self, sel,table, comp, test):
+        """
+        Affiche des données spécifiques d'une table en fonction d'une condition de sélection.
+
+        Fonctionnement :
+        - Exécute une requête SELECT pour récupérer des données spécifiques (`sel`) de la table spécifiée (`table`)
+        où la valeur de la colonne (`comp`) correspond à une condition (`test`).
+        """
         self.curs.execute(requete.select_with_where.format(sel,table,comp,test))
         phrase=self.curs.fetchall()
         ph=""
@@ -58,6 +97,12 @@ class bdd:
         print(ph)
             
     def return_all_id_from_table(self, table):
+        """
+        Récupère tous les identifiants (IDs) disponibles dans une table spécifique de la base de données.
+
+        Fonctionnement :
+        - Exécute une requête SELECT pour récupérer tous les identifiants (IDs) de la table spécifiée (`table`).
+        """
         self.curs.execute(requete.list_all_id.format(table,table))
         
         idd=self.curs.fetchall()
@@ -67,6 +112,13 @@ class bdd:
         return listeid
     
     def list_id_where(self, sel, table, comp, test):
+        """
+        Récupère tous les identifiants (IDs) d'une table spécifique basés sur une condition de filtrage.
+
+        Fonctionnement :
+        - Exécute une requête SELECT pour récupérer tous les identifiants (IDs) de la colonne spécifiée (`sel`)
+        de la table spécifiée (`table`) où la valeur de la colonne (`comp`) correspond à une condition (`test`).
+        """
         self.curs.execute(requete.select_id_with_where.format(sel,table,comp,test))
         
         idd=self.curs.fetchall()
@@ -76,6 +128,13 @@ class bdd:
         return listeid
     
     def creat_database(self):
+        """
+        Crée la base de données et ses tables en utilisant les requêtes définies dans le fichier de requêtes.
+
+        Fonctionnement :
+        - Exécute les requêtes de création de base de données et de tables en utilisant les instructions SQL
+        définies dans la liste `requete.creation` du fichier de requêtes.
+        """
         taille=len(requete.creation)
         try:
             self.curs.execute(requete.creation[0])
@@ -176,10 +235,24 @@ class bdd:
             self.bd.commit()
 
     def update(self, table, cle, valeur, id):
+        """
+        Met à jour une valeur spécifique dans une table donnée.
+
+        Fonctionnement :
+        - Exécute une requête UPDATE pour modifier la valeur d'une colonne spécifiée (`cle`)
+        dans une table spécifique (`table`) pour une entrée spécifiée par son identifiant (`id`).
+        """
         self.curs.execute(requete.update.format(table,cle,f"''{valeur}" if valeur != "NULL" else "NULL", f"id_{table}",f"'{id}'"))
         self.bd.commit()
 
     def add_valeur(self, table, *args):
+        """
+        Ajoute une nouvelle entrée (ligne) dans une table spécifiée avec les valeurs fournies.
+
+        Fonctionnement :
+        - Cette méthode génère et exécute une requête INSERT INTO pour ajouter une nouvelle entrée dans une table (`table`)
+        avec les valeurs spécifiées (`args`).
+        """
         if table not in ["jouer","reservation"]:
             val="NULL,"
             for elem in range(len(args)):
