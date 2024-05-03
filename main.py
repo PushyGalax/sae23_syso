@@ -121,7 +121,7 @@ def ajout_concert():
         else:
             id_sal=input(" >>> ")
     nom_conc = input("Nom du concert\n >>> ")
-    date_conc = input("Date du concert\n >>> ")
+    date_conc = input("Date du concert au format AAAA/MM/JJ\n >>> ")
     if date_conc=="":
         date_conc="NULL"
     if date_conc=="NULL":
@@ -274,7 +274,7 @@ def delete():
             sql.delete_data(table=table,iden=iden)
 
         case "compositeur":
-            pass
+            ... ##################################################################################
 
         case "jouer":
             print("Le programme ne peut être modifié.")
@@ -284,6 +284,32 @@ def delete():
 
         case _:
             print("La table n'existe pas.")
+
+def updateable():
+    print("Voici la liste des tables modifiables : concert, compositeur")
+    choice=input("veuillez choisir une des tables modifiables.\n >>> ")
+    match choice:
+        case "concert":
+            sql.showall("concert")
+            id_=input("Veuillez choisir un id de concert existant.\n >>> ")
+            while id_ not in sql.return_all_id_from_table("concert"):
+                id_=input("Veuillez choisir un id de concert existant sinon l pour lister les concerts\n >>> ")
+                if id_ == "l":
+                    sql.showall("concert")
+            print("Voici les clés modifiables pour la tables concert : date, place")
+            cle=input("Veuillez choisir une clé.\n >>> ")
+            match cle:
+                case "date":
+                    date=input("Veuillez choisir la nouvelles date du concert au format AAAA/MM/JJ sinon NULL\n >>> ")
+                    sql.update(choice,"date_concert",date,id_)
+                case "place":
+                    ... ##################################################################################
+                case _:
+                    print("La clé demandée n'existe pas dans la table.")
+        case "compositeur":
+            ... ##################################################################################
+        case _:
+            print("Votre table n'est pas dans la liste des tables modifiables.")
 
                             
 

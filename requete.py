@@ -79,6 +79,7 @@ select_with_where="SELECT {} FROM {} WHERE {} = {}"
 select_key="SELECT {} FROM {}"
 order="ORDER BY {}"
 select_join="SELECT {} FROM {} JOIN {} ON {} = {} WHERE {} = {}"
+update="UPDATE {} SET {}={} WHERE {}={}"
 
 valeur={
 "salle":"id_salle, id_batiment, nom_salle",

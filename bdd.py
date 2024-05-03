@@ -174,7 +174,11 @@ class bdd:
                     val=f"NULL,'{id_salle[0][0]}','{elem[1]}','{elem[2]}','{elem[3]}','{elem[4]}','{elem[5]}',{chef},{soliste},{prix},'{elem[8]}','{elem[9]}','{elem[10]}'"
                     self.curs.execute(requete.request_ajout.format("concert",requete.valeur["concert"],val))
             self.bd.commit()
-    
+
+    def update(self, table, cle, valeur, id):
+        self.curs.execute(requete.update.format(table,cle,f"''{valeur}" if valeur != "NULL" else "NULL", f"id_{table}",f"'{id}'"))
+        self.bd.commit()
+
     def add_valeur(self, table, *args):
         if table not in ["jouer","reservation"]:
             val="NULL,"
