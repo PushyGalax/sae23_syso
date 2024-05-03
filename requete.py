@@ -27,7 +27,7 @@ creation = ["CREATE DATABASE IF NOT EXISTS sae_23",
             "visuel tinyint(1) NOT NULL,"\
             "durée_concert float NOT NULL COMMENT 'minute',"\
             "genre_concert enum('symphonique','vent','corde','duo','trio','quatuor','soliste','rock','électro','traditionnelle','spéciale') NOT NULL,"\
-            "UNIQUE (id_salle),"\
+            "INDEX (id_salle),"\
             "CONSTRAINT FK_id_salle FOREIGN KEY (id_salle) REFERENCES salle(id_salle) ON UPDATE CASCADE);",
             
             "CREATE TABLE IF NOT EXISTS compositeur ("\
@@ -45,7 +45,7 @@ creation = ["CREATE DATABASE IF NOT EXISTS sae_23",
             "durée_morceau float NOT NULL COMMENT 'minutes',"\
             "genre enum('concerto','composition','symphonie','sonate','quatuor','rock','électro','traditionnelle','spéciale') NOT NULL,"\
             "lieu_compo varchar(200) DEFAULT NULL,"\
-            "UNIQUE (id_compositeur),"\
+            "INDEX (id_compositeur),"\
             "CONSTRAINT FK_id_compositeur FOREIGN KEY (id_compositeur) REFERENCES compositeur(id_compositeur) ON DELETE CASCADE ON UPDATE CASCADE);",
             
             "CREATE TABLE IF NOT EXISTS jouer ("\
@@ -78,6 +78,7 @@ select_id_with_where="SELECT id_{} FROM {} WHERE id_{} = {}"
 select_with_where="SELECT {} FROM {} WHERE {} = {}"
 select_key="SELECT {} FROM {}"
 order="ORDER BY {}"
+select_join="SELECT {} FROM {} JOIN {} ON {} = {} WHERE {} = {}"
 
 valeur={
 "salle":"id_salle, id_batiment, nom_salle",

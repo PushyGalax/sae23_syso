@@ -181,11 +181,11 @@ def ajout_jouer():
         else:
             id_comp=input(" >>> ")
     print("Veuillez choisir l'id d'un morceau")
-    sql.prin_all_data_with_where("*","morceau", "compositeur", id_comp)
+    sql.prin_data_with_where("*","morceau", "id_compositeur", id_comp)
     id_morc=input(" >>> ")
     test=True
     while test:
-        if int(id_morc) in sql.list_id_where("id_morceau","morceau","compositeur", id_comp):
+        if int(id_morc) in sql.list_id_where("morceau","morceau","compositeur", id_comp):
             test=False
         else:
             id_morc=input(" >>> ")
@@ -225,7 +225,14 @@ def ajout():
 
 def delete():
     table=input(f"{liste_table}\nVeuillez choisir une table >>> ")
+    testtable=True
+    while testtable:
+        if table not in liste_table:
+            table=input(f"{liste_table}\nVeuillez choisir une table >>> ")
+        else:
+            testtable=False
     sql.showall(table)
+    
     iden=input("Veuillez choisir l'identificateur de la donnée à supprimer, si c'est pour la table jouer, veuiller choisir les deux identifiants séparé pas une virgule comme suit: id_concert,id_morceau.\n >>> ")
     match table:
         case "batiment":
@@ -254,7 +261,7 @@ def delete():
                 sql.delete_data(table=table,iden=iden)
             else:
                 peut_del=True
-                print(f"Il y a encore des concerts existants pour la salle.\n{[sql.prin_all_data_with_where("*","concert","id_concert",i) for i in id_concert]}\nSouaitez vous les supprmier? (Y | N)")
+                print(f"Il y a encore des concerts existants pour la salle.\n{[sql.prin_data_with_where("*","concert","id_concert",i) for i in id_concert]}\nSouaitez vous les supprmier? (Y | N)")
                 choice=input(" >>> ")
                 if choice in ["Y","y"]:
                     for i in id_concert:
@@ -270,8 +277,7 @@ def delete():
             pass
 
         case "jouer":
-            cle=iden.split(",")
-            sql.delete_double_id("jouer","concert",cle[0],"morceau",cle[1])
+            print("Le programme ne peut être modifié.")
         
         case "concert":
             sql.delete_data(table,iden)
@@ -335,6 +341,9 @@ if __name__ == "__main__":
             
             case "x":
                 delete()
+            
+            case "u":
+                print("work in progress")
             
             case _:
                 print("La commande n'existe pas")
