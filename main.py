@@ -20,7 +20,7 @@ def lireconf():
     - Retourne les informations de configuration sous forme de tuple.
     """
     
-    with open("config.conf", 'r') as conf:
+    with open("./config.conf", 'r') as conf:
         file = conf.readlines()
         data=False
         listeinfo=[]
@@ -490,7 +490,7 @@ def updateable():
         case "compositeur":
             sql.showall("compositeur")
             id_=input("Veuillez choisir un id d'un compositeur ou groupe existant.\n >>> ")
-            while id_ not in sql.return_all_id_from_table("compositeur"):
+            while int(id_) not in sql.return_all_id_from_table("compositeur"):
                 id_=input("Veuillez choisir un id d'un compositeur ou groupe existant sinon l pour lister les concerts\n >>> ")
                 if id_ == "l":
                     sql.showall("compositeur")
@@ -537,7 +537,6 @@ def list_concert_comp():
     """compositeur"""
     sql.showall("compositeur")
     id_=input("Veuillez choisir l'id d'un compositeur.\n >>> ")
-    print(sql.return_all_id_from_table("compositeur"))
     while int(id_) not in sql.return_all_id_from_table("compositeur"):
         id_=input("Veuillez choisir l'id d'un compositeur existant.\n >>> ")
     sql.selcomp(id_)

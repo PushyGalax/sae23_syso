@@ -1,3 +1,7 @@
 id_salle;nom_concert;date_concert;formation;nb_place_restante;chef_d_orchestre;soliste;prix_place;visuel;durée_concert;genre_concert
 eglise saint germain des pres;MOZART : REQUIEM;30/04/2024;orchestre symphonique;150;Jean-Charles Dunand;NULL;22;0;150;symphonique
 Zénith;Little Big Concert;2024-08-22;spéciale;1046;NULL;NULL;49;1;60;spéciale
+Salle Léon Curral; 魔道祖师; 2024-06-12; traditionnelle; 500; NULL; NULL; 15; 1; 60; traditionnelle
+L_Olympia; 900K Live; 2024-03-25; électro; 2500; NULL; NULL; 20; 1; 90; électro
+Le MuzikHall; AronWorld; 2024-07-12; électro; 1200; NULL; NULL; 30; 1; 75; électro
+eglise saint germain des pres; Bach Que ma joie demeure; 2024-05-20; électro; 1350; NULL; NULL; NULL; 0; 30; symphonique

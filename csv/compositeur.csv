@@ -1,6 +1,10 @@
 nom_compositeur;date_naissance;date_mort;nb_morceau
-Jean-Sébastien Bach;31/03/1685;28/07/1750;1300
-Ludwig van Beethoven;16/12/1770;26/03/1827;500
-Wolfgang Amadeus Mozart;27/01/1756;05/12/1791;NULL
-Meganeko;NULL;NULL;70
-groupe Little Big;2013/04/01;NULL;93
+groupe little big; 2013-04-01; 0000-00-00; 93
+Jean-Sébastien Bach; 1685-03-31; 1750-07-28; 1300
+Ludwig van Beethoven; 1770-12-16; 1827-03-26; 500
+Wolfgang Amadeus Mozart; 1756-01-27; 1791-12-05; NULL
+Meganeko; NULL; NULL; 70
+钟离; 1969-12-31; NULL; 112
+魏无羡; 1998-10-31; NULL; 16
+Adrien Nougaret (Zerator); 1990-03-01; NULL; 13
+Aron Michael Ekberg (AronChupa); 1991-03-30; NULL; 17

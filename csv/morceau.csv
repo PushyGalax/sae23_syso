@@ -1,9 +1,35 @@
 id_compositeur;nom_morceau;date_composition;durée_morceau;genre;lieu_compo
-Wolfgang Amadeus Mozart;Requiem;1791;150;symphonie;Vienne
-groupe Little Big;Rock-Papers-Scissors;2019;3.3;électro;Russie
-groupe Little Big;Faradenza;2018;3.6;électro;Russie
-groupe Little Big;Lolly Bomb;2017;5.25;spéciale;Russie
-groupe Little Big;Hypnodancer;2020;4.6;spéciale;Russie
-groupe Little Big;Sex Machine;2021;3.2;spéciale;Russie
-groupe Little Big;Everyday I m drinking;2013;2.9;spéciale;Russie
-groupe Little Big;Слэмятся пацаны;2018;4.1;spéciale;Russie
+groupe little big; Rock-Papers-Scissors; 2019; 3.3; électro; Russie
+groupe little big; Faradenza; 2018; 3.6; électro; Russie
+groupe little big; Lolly Bomb; 2017; 5.25; spéciale; Russie
+groupe little big; Hypnodancer; 2020; 4.6; spéciale; Russie
+groupe little big; Sex Machine; 2021; 3.2; spéciale; Russie
+groupe little big; Everyday I m drinking; 2013; 2.9; spéciale; Russie
+groupe little big; Слэмятся пацаны; 2018; 4.1; spéciale; Russie
+魏无羡; 【古琴】《何以歌》魔道祖师_广播剧主题曲_忘机本琴弹琴给你听 (超燃) 高能预警; 2019; 4.5; traditionnelle; Chine
+魏无羡; 陈情令_The_Untamed; 2019; 2.5; traditionnelle; Chine
+魏无羡; 魔道祖師前塵篇; 2019; 4; traditionnelle; Chine
+魏无羡; 天官賜福; 2019; 4; traditionnelle; Chine
+魏无羡; 【箜篌】演奏魔道祖師廣播劇第二季·主題曲《忘羨》; 2019; 4.4; traditionnelle; Chine
+魏无羡; 【古琴】《若花怜蝶》为你战死是我至高无上的荣耀 ; 2019; 4; traditionnelle; Chine
+魏无羡; 【古筝】魔道祖师《东风志》翻奏; 2019; 5; traditionnelle; Chine
+Adrien Nougaret (Zerator); COPYRIGHT : MOI; 2023; 2.5; électro; France
+Adrien Nougaret (Zerator); ANONYME; 2023; 3; électro; France
+Adrien Nougaret (Zerator); IMAGINE; 2023; 2; électro; France
+Adrien Nougaret (Zerator); OUI; 2023; 4.9; électro; France
+Adrien Nougaret (Zerator); KATOUM; 2023; 2.2; électro; France
+Adrien Nougaret (Zerator); RALENTIS; 2023; 2.5; électro; France
+Adrien Nougaret (Zerator); THE VOID; 2023; 2.5; électro; France
+Aron Michael Ekberg (AronChupa); I_m an Albatraoz; 2015; 2.5; électro; Suéde
+Aron Michael Ekberg (AronChupa); Trombone; 2021; 3.3; électro; Suède
+Aron Michael Ekberg (AronChupa); Llama in my living room; 2018; 3.9; électro; Suède
+Aron Michael Ekberg (AronChupa); She wants me dead; 2017; 2.9; électro; Suède
+Aron Michael Ekberg (AronChupa); Little swing; 2016; 3.9; électro; Suède
+Jean-Sébastien Bach; Concerto 1 fa majeur; 1721; 17.9; concerto; Allemagne
+Jean-Sébastien Bach; concerto 2 fa majeur; 1721; 11.5; concerto; Allemagne
+Jean-Sébastien Bach; concerto 3 sol majeur; 1721; 19; concerto; Allemagne
+Jean-Sébastien Bach; concerto 4 sol majeur; 1721; 16.2; concerto; Allemagne
+Jean-Sébastien Bach; concerto 5 ré majeur; 1721; 17.5; concerto; Allemagne
+Jean-Sébastien Bach; concerto 6 sib majeur; 1721; 11.5; concerto; Allemagne
+Jean-Sébastien Bach; Toccata et fugue en ré mineur; 1707; 9.2; composition; Allemagne
+Wolfgang Amadeus Mozart; Requiem; 1791; 150; symphonie; Vienne
