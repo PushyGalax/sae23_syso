@@ -7,13 +7,18 @@ class bdd:
         """
             Cette fonction va se connecter à la base de données
         """
-        self.bd = pymysql.connect(host=address, port=port, user=login, password=mdp)
-        self.curs = self.bd.cursor()
-        self.chemin_csv = chemin_csv
+        
         try:
-            self.curs.execute("USE sae_23")
+            self.bd = pymysql.connect(host=address, port=port, user=login, password=mdp)
+            self.curs = self.bd.cursor()
+            self.chemin_csv = chemin_csv
+            try:
+                self.curs.execute("USE sae_23")
+            except:
+                print("Il faut créer la base")
         except:
-            print("Il faut créer la base")
+            print("La connection n'a pas pu être établit.")
+            exit(0)
             
     
     def drop(self):
@@ -242,9 +247,63 @@ class bdd:
         - Exécute une requête UPDATE pour modifier la valeur d'une colonne spécifiée (`cle`)
         dans une table spécifique (`table`) pour une entrée spécifiée par son identifiant (`id`).
         """
-        self.curs.execute(requete.update.format(table,cle,f"''{valeur}" if valeur != "NULL" else "NULL", f"id_{table}",f"'{id}'"))
+        self.curs.execute(requete.update.format(table,cle,f"'{valeur}'" if valeur != "NULL" else "NULL", f"id_{table}",f"'{id}'"))
         self.bd.commit()
+    
+    def seljoinmor(self, sel, table1, table2, cle1, cle2, cond, test):
+        """SELECT {} FROM {} JOIN {} ON {} = {} WHERE {} = {}"""
+        self.curs.execute(requete.select_join.format(sel,table1,table2,cle1,cle2,cond,test))
+        morce = self.curs.fetchall()
+        self.curs.execute(requete.select_with_where.format("nom_concert","concert","id_concert",test))
+        val=""
+        for elem in morce:
+            val+=elem[0]+", "
+        print(f"Il y aura dans le concert {self.curs.fetchall()[0][0]} les morceaux {val[:-2]}.")
+        
+    def seljoincon(self, sel, table1, table2, cle1, cle2, cond, test):
+        """SELECT {} FROM {} JOIN {} ON {} = {} WHERE {} = {}"""
+        self.curs.execute(requete.select_join.format(sel,table1,table2,cle1,cle2,cond,test))
+        conce = self.curs.fetchall()
+        self.curs.execute(requete.select_with_where.format("nom_morceau","morceau","id_morceau",test))
+        val=""
+        for elem in conce:
+            val+=elem[0]+", "
+        print(f"Les concert où est présent le morceau {self.curs.fetchall()[0][0]} {'sont' if len(conce)>1 else "est" if len(conce)==1 else "est aucun"} {val[:-2]}.")
+        
+    def selform(self, form):
+        self.curs.execute(requete.select_with_where.format("nom_concert","concert", "formation",f"'{form}'"))
+        conce=self.curs.fetchall()
+        val=""
+        for elem in conce:
+            val+=elem[0]+", "
+        print(f"Les concert de formation instrumentale {form} {'sont' if len(conce)>1 else "est" if len(conce)==1 else "est aucun"} {val[:-2]}.")
+        
+    def selgenre(self, genre):
+        self.curs.execute(requete.select_with_where.format("nom_concert","concert", "genre_concert",f"'{genre}'"))
+        conce=self.curs.fetchall()
+        val=""
+        for elem in conce:
+            val+=elem[0]+", "
+        print(f"Les concert de formation genre {genre} {'sont' if len(conce)>1 else "est" if len(conce)==1 else "est aucun"} {val[:-2]}.")
 
+    def selcomp(self, comp):
+        """compositeur"""
+        self.curs.execute(requete.select_triple_join.format("nom_concert","concert", "jouer", "concert.id_concert", "jouer.id_concert", "morceau", "jouer.id_morceau", "morceau.id_morceau", "compositeur", "morceau.id_compositeur", "compositeur.id_compositeur","compositeur.id_compositeur", comp))
+        conce=self.curs.fetchall()
+        val=""
+        for elem in conce:
+            val+=elem[0]+", "
+        self.curs.execute(requete.select_with_where.format("nom_compositeur", "compositeur", "id_compositeur", comp))
+        print(f"Les concert du compositeur {self.curs.fetchall()[0][0]} {'sont' if len(conce)>1 else "est" if len(conce)==1 else "est aucun"} {val[:-2]}.")
+    
+    def selville(self, ville):
+        self.curs.execute(requete.select_double_join.format("nom_concert","concert","salle","concert.id_salle","salle.id_salle","batiment","salle.id_batiment","batiment.id_batiment","ville",f"'{ville}'"))
+        conce=self.curs.fetchall()
+        val=""
+        for elem in conce:
+            val+=elem[0]+", "
+        print(f"Les concert de la ville {ville} {'sont' if len(conce)>1 else "est" if len(conce)==1 else "est aucun"} {val[:-2]}.")
+        
     def add_valeur(self, table, *args):
         """
         Ajoute une nouvelle entrée (ligne) dans une table spécifiée avec les valeurs fournies.

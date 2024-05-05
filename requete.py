@@ -79,6 +79,8 @@ select_with_where="SELECT {} FROM {} WHERE {} = {}"
 select_key="SELECT {} FROM {}"
 order="ORDER BY {}"
 select_join="SELECT {} FROM {} JOIN {} ON {} = {} WHERE {} = {}"
+select_double_join="SELECT {} FROM {} JOIN {} ON {} = {} JOIN {} ON {} = {} WHERE {} = {}"
+select_triple_join="SELECT {} FROM {} JOIN {} ON {} = {} JOIN {} ON {} = {} JOIN {} ON {} = {} WHERE {} = {}"
 update="UPDATE {} SET {}={} WHERE {}={}"
 
 valeur={

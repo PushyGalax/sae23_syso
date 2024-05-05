@@ -1,6 +1,7 @@
 import bdd as bdd
 
-title = """|                                            /                       .-.                                                   /           |
+title = """\
+|                                            /                       .-.                                                   /           |
 |    .     .    .-. .  .-. .-.     .-.      /-.   .-._. .  .-.       `-'  .-.    .-.        .    .-._. .  .-.    .-.   ---/---  .-.    |
 |   / \     )  /     )/   )   )    /  )    /   | (   )   )/   )     /    (      (  |       / \  (   )   )/   )  (  |     /     (  |    |
 |  / ._)   (_.'     '/   /   (    /`-'  _.'    |  `-'   '/   (   _.(__.   `---'  `-'-'    / ._)  `-'   '/   (    `-'-'  /       `-'-'  |
@@ -45,6 +46,15 @@ consigne = """  Voici les instructions de fonctionnement de l'application.
         >>> a   :-> ajout de données
         >>> x   :-> supprimer des données
         >>> u   :-> mettre à jours des données"""
+
+conrecherche=""" Voici la liste des recherches disponibles actuellement au livrable CLI.
+        >>> 1   :-> liste les morceaux d'un concert
+        >>> 2   :-> liste les concerts d'un morceau
+        >>> 3   :-> liste des concerts d'une formation
+        >>> 4   :-> liste des concerts d'un genre musicale
+        >>> 5   :-> liste des concerts de morceaux d'un compositeur ou d'un groupe
+        >>>6    :-> liste des concerts d'une ville
+"""
 
 
 def ajout_batiment():
@@ -487,9 +497,79 @@ def updateable():
             sql.update("compositeur","date_mort",date,id_)
         case _:
             print("Votre table n'est pas dans la liste des tables modifiables.")
+            
+def list_morceau_concert():
+    """"SELECT {} FROM {} JOIN {} ON {} = {} WHERE {} = {}"""
+    sql.showall("concert")
+    id_=input("Veuillez choisir l'id d'un concert.\n >>> ")
+    while id_ not in sql.return_all_id_from_table("concert"):
+        id_=input("Veuillez choisir l'id d'un concert existant.\n >>> ")
+    sql.seljoinmor('nom_morceau',"morceau","jouer","morceau.id_morceau","jouer.id_morceau","jouer.id_concert",id_)
+
+def list_concert_morceau():
+    """"SELECT {} FROM {} JOIN {} ON {} = {} WHERE {} = {}"""
+    sql.showall("morceau")
+    id_=input("Veuillez choisir l'id d'un morceau.\n >>> ")
+    while int(id_) not in sql.return_all_id_from_table("morceau"):
+        id_=input("Veuillez choisir l'id d'un morceau présent dans la table.\n >>> ")
+    sql.seljoincon('nom_concert',"concert","jouer","concert.id_concert","jouer.id_concert","jouer.id_morceau",id_)
+
+def list_concert_form():
+    """formation"""
+    forma=['orchestre symphonique','orchestre à vent','orchestre à corde','duo','trio','quatuor','soliste','rock','traditionnelle','électro','spéciale']
+    print("Voici l'ensemble des formation possible : orchestre symphonique, orchestre à vent, orchestre à corde, duo, trio, quatuor, soliste, rock, traditionnelle, électro, spéciale")
+    form=input("Veuillez en choisir un.\n >>> ")
+    while form not in forma:
+        form=input("Veuillez en choisir un présent dans la liste.\n >>> ")
+    sql.selform(form)
+
+def list_concert_genre():
+    """genre"""
+    genre=['symphonique','vent','corde','duo','trio','quatuor','soliste','rock','électro','traditionnelle','spéciale']
+    print("Voici l'ensemble des genre possible : symphonique,vent,corde,duo,trio,quatuor,soliste,rock,électro,traditionnelle,spéciale")
+    genr=input("Veuillez en choisir un.\n >>> ")
+    while genr not in genre:
+        genr=input("Veuillez en choisir un présent dans la liste.\n >>> ")
+    sql.selgenre(genr)
+
+def list_concert_comp():
+    """compositeur"""
+    sql.showall("compositeur")
+    id_=input("Veuillez choisir l'id d'un compositeur.\n >>> ")
+    print(sql.return_all_id_from_table("compositeur"))
+    while int(id_) not in sql.return_all_id_from_table("compositeur"):
+        id_=input("Veuillez choisir l'id d'un compositeur existant.\n >>> ")
+    sql.selcomp(id_)
+
+def list_concert_lieu():
+    """ville"""
+    sql.selville(input("Veuillez séléctionner la ville du concert.\n >>> "))
+    
 
 def recherche():
-    ...
+    print(conrecherche)
+    choice=input("Choisissez la recherche souhaitez.\n >>> ")
+    match choice:
+        case "1":
+            list_morceau_concert()
+        
+        case "2":
+            list_concert_morceau()
+        
+        case "3":
+            list_concert_form()
+        
+        case "4":
+            list_concert_genre()
+        
+        case "5":
+            list_concert_comp()
+        
+        case "6":
+            list_concert_lieu()
+        
+        case _:
+            print("Votre recherche n'est pas disponible.")
 
 if __name__ == "__main__":
     address, port, user, mdp, database, chem = lireconf()
@@ -499,9 +579,9 @@ if __name__ == "__main__":
     sql = bdd.bdd(address, user, mdp, port,chem)
     print("connexion etablit\n")
     
-    print("--"+"-"*132+"--")
+    print("-"*136)
     print(title)
-    print("--"+"-"*132+"--\n")
+    print("-"*136+"\n")
     print("                 Bienvenue dans le CLI de Symphonica Sonata\n\n")
     running=True
     print(consigne)
@@ -521,6 +601,9 @@ if __name__ == "__main__":
                 sql.creat_database()
                 print("Création des salles et bâtiments")
                 sql.creatsalle()
+                sql.creatcompositeur()
+                sql.creatmorceau()
+                sql.creatconcert()
                 
             case "d":
                 print("Suppression de la base de données")
@@ -541,7 +624,7 @@ if __name__ == "__main__":
                 ajout()
             
             case "r":
-                print("Work In Progress")
+                recherche()
             
             case "x":
                 delete()
