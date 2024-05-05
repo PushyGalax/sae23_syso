@@ -70,10 +70,6 @@ drop="DROP DATABASE sae_23"
 request_ajout="INSERT INTO {}({}) VALUES({})"
 deletedata="DELETE FROM {} WHERE {} = {}"
 deletedoubleid="DELETE FROM {} WHERE id_{} = {} AND id_{} = {}"
-#INSERT INTO salle(id_salle, id_batiment, nom_salle) VALUES ('[value-1]','[value-2]','[value-3]')
-#année mois jour
-list_all_table="SELECT * FROM {}"
-list_all_id="SELECT id_{} FROM {}"
 select_id_with_where="SELECT id_{} FROM {} WHERE id_{} = {}"
 select_with_where="SELECT {} FROM {} WHERE {} = {}"
 select_key="SELECT {} FROM {}"

@@ -74,7 +74,7 @@ class bdd:
         - Exécute une requête SELECT pour récupérer toutes les entrées de la table spécifiée (`table`).
         - Affiche les résultats formatés sous forme de tableau.
         """
-        self.curs.execute(requete.list_all_table.format(table))
+        self.curs.execute(requete.select_key.format("*",table))
         phrase=self.curs.fetchall()
         print(requete.valeur[table].replace(","," |"))
         ph=""
@@ -108,7 +108,7 @@ class bdd:
         Fonctionnement :
         - Exécute une requête SELECT pour récupérer tous les identifiants (IDs) de la table spécifiée (`table`).
         """
-        self.curs.execute(requete.list_all_id.format(table,table))
+        self.curs.execute(requete.select_key.format(f"id_{table}",table))
         
         idd=self.curs.fetchall()
         listeid=[]
