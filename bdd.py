@@ -303,6 +303,30 @@ class bdd:
         for elem in conce:
             val+=elem[0]+", "
         print(f"Les concert de la ville {ville} {'sont' if len(conce)>1 else "est" if len(conce)==1 else "est aucun"} {val[:-2]}.")
+    
+    def seldatedeux(self, dat1, dat2):
+        self.curs.execute(f"{requete.select_key.format("nom_concert","concert")} {requete.comp_sup.format("date_concert",dat1)} AND {requete.comp_inf.format("date_concert",dat2)}")
+        conce=self.curs.fetchall()
+        val=""
+        for elem in conce:
+            val+=elem[0]+", "
+        print(f"Les concert se déroulant entre la {dat1} et le {dat2} {'sont' if len(conce)>1 else "est" if len(conce)==1 else "est aucun"} {val[:-2]}.")
+    
+    def seldateinf(self, dat1):
+        self.curs.execute(f"{requete.select_key.format("nom_concert","concert")} {requete.comp_inf.format("date_concert",dat1)}")
+        conce=self.curs.fetchall()
+        val=""
+        for elem in conce:
+            val+=elem[0]+", "
+        print(f"Les concert antérieur au {dat1} {'sont' if len(conce)>1 else "est" if len(conce)==1 else "est aucun"} {val[:-2]}.")
+    
+    def seldatesup(self, dat1):
+        self.curs.execute(f"{requete.select_key.format("nom_concert","concert")} {requete.comp_sup.format("date_concert",dat1)}")
+        conce=self.curs.fetchall()
+        val=""
+        for elem in conce:
+            val+=elem[0]+", "
+        print(f"Les concert se déroulant après le {dat1} {'sont' if len(conce)>1 else "est" if len(conce)==1 else "est aucun"} {val[:-2]}.")
         
     def add_valeur(self, table, *args):
         """

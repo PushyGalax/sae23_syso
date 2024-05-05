@@ -53,7 +53,8 @@ conrecherche=""" Voici la liste des recherches disponibles actuellement au livra
         >>> 3   :-> liste des concerts d'une formation
         >>> 4   :-> liste des concerts d'un genre musicale
         >>> 5   :-> liste des concerts de morceaux d'un compositeur ou d'un groupe
-        >>>6    :-> liste des concerts d'une ville
+        >>> 6   :-> liste des concerts d'une ville
+        >>> 7   :-> liste de tous les concerts par date
 """
 
 
@@ -544,6 +545,36 @@ def list_concert_comp():
 def list_concert_lieu():
     """ville"""
     sql.selville(input("Veuillez séléctionner la ville du concert.\n >>> "))
+
+def list_concert_date():
+    import datetime
+    print("Vous pouvez choisir une tranche de date ou bien tous les concerts supérieur à une date ou bien tous les concert inferieur à une date.")
+    choice=input("Veuillez entrer 1 pour choisir dans une tranche, 2 pour choisir tous les concerts antérieur à une date, 3 pour tous les concerts supérieur à une date.")
+    while choice not in ["1","2","3"]:
+        choice=input("Veuillez entrer 1 pour choisir dans une tranche, 2 pour choisir tous les concerts antérieur à une date, 3 pour tous les concerts supérieur à une date.")
+    match choice:
+        case "1":
+            date1=input("Veuillez choisir la date à partir de laquelle tous les concerts seront supérieur, au format AAAA-MM-JJ, sinon '' pour la date actuelle.\n >>> ")
+            if date1=="":
+                date1=datetime.datetime.now().strftime("%Y-%m-%d")
+            date2=input("Veuillez choisir la date à partir de laquelle tous les concerts seront inferieur, au format AAAA-MM-DD.\n >>> ")
+            while datetime.date(int(date1.split("-")[0]),int(date1.split("-")[1]),int(date1.split("-")[3])) > datetime.date(int(date2.split("-")[0]),int(date2.split("-")[1]),int(date2.split("-")[3])):
+                print("La première date est plus grande que la deuxième.")
+                date1=input("Veuillez choisir la date à partir de laquelle tous les concerts seront supérieur, au format AAAA-MM-JJ, sinon '' pour la date actuelle.\n >>> ")
+                if date1=="":
+                    date1=datetime.datetime.now().strftime("%Y-%m-%d")
+                date2=input("Veuillez choisir la date à partir de laquelle tous les concerts seront inferieur, au format AAAA-MM-DD.\n >>> ")
+            sql.seldatedeux(date1,date2)
+        case "2":
+            date1=input("Veuillez choisir la date à partir de laquelle tous les concerts seront antérieur, au format AAAA-MM-JJ, sinon '' pour la date actuelle.\n >>> ")
+            if date1=="":
+                date1=datetime.datetime.now().strftime("%Y-%m-%d")
+            sql.seldateinf(date1)
+        case "3":
+            date1=input("Veuillez choisir la date à partir de laquelle tous les concerts seront supérieur, au format AAAA-MM-JJ, sinon '' pour la date actuelle.\n >>> ")
+            if date1=="":
+                date1=datetime.datetime.now().strftime("%Y-%m-%d")
+            sql.seldatesup(date1)
     
 
 def recherche():
@@ -567,6 +598,9 @@ def recherche():
         
         case "6":
             list_concert_lieu()
+        
+        case "7":
+            list_concert_date()
         
         case _:
             print("Votre recherche n'est pas disponible.")
@@ -634,4 +668,5 @@ if __name__ == "__main__":
             
             case _:
                 print("La commande n'existe pas")
+                print(consigne)
 
